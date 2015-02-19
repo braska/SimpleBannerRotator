@@ -1,0 +1,45 @@
+function Banner(elemId, zoneId) {
+    var elem = document.getElementById(elemId);
+    this.elem = elem;
+    if(this.elem) {
+        var location = document.location;
+
+        var request = false;
+        try {
+            request = new ActiveXObject('Msxml2.XMLHTTP');
+        }
+        catch (err2) {
+            try {
+                request = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            catch (err3) {
+                try {
+                    request = new XMLHttpRequest();
+                }
+                catch (err1)
+                {
+                    request = false;
+                }
+            }
+        }
+        if(request == false) {
+            console.error("Ваш браузер не поддерживает кросс-доменные запросы. Загрузка баннера не возмона.")
+        } else {
+            request.onreadystatechange = function()
+            {
+                if(request.readyState == 4)
+                {
+                    if(request.status == 200)
+                    {
+                        elem.innerHTML = request.responseText;
+                    } else console.log("Ошибка загрузки баннера. Код: " + request.status);
+                }
+            };
+
+            request.open("GET", "<?=$this->url->get(array('for'=>'action', 'controller'=>'rotator', 'action'=>'get'))?>?zone_id="+zoneId+"&url="+location, true);
+            request.send(null);
+        }
+    } else {
+        console.error("Ошибка инициализации баннерного блока для зоны \""+zoneId+"\": не найден элемент с id = "+elemId);
+    }
+}

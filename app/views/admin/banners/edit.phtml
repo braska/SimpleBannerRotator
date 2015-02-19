@@ -1,0 +1,260 @@
+<div class="row">
+    <div class="col-md-7">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Заполните форму</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <div class="padd">
+                    <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="name">Имя</label>
+                            <div class="col-md-10">
+                                <?=$this->tag->textField(array('name', 'value'=>$banner->name, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="width">Ширина</label>
+                            <div class="col-md-4">
+                                <?=$this->tag->textField(array('width', 'value'=>$banner->width, 'class'=>'form-control'))?>
+                            </div>
+                            <label class="control-label col-md-2" for="height">Высота</label>
+                            <div class="col-md-4">
+                                <?=$this->tag->textField(array('height', 'value'=>$banner->height, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="link">Ссылка</label>
+                            <div class="col-md-10">
+                                <?=$this->tag->textField(array('link', 'value'=>$banner->link, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="link">Открывать в новой вкладке</label>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <?=$this->tag->checkField(array('target_blank', 'value'=>$banner->target_blank, 'checked'=>$banner->target_blank == 1 ? 'checked' : null, 'style'=>'width: 32px; height: 32px;'))?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="priority">Приоритет</label>
+                            <div class="col-md-2">
+                                <?=$this->tag->numericField(array('priority', 'value'=>$banner->priority, 'class'=>'form-control', 'min'=>0))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="type">Тип</label>
+                            <div class="col-md-10">
+                                <?=$this->tag->selectStatic(array('type', array(
+                                    'image' => 'Изображение',
+                                    'flash' => 'Flash',
+                                    'html' => 'HTML-код'
+                                ), 'class'=>'form-control',
+                                    'value' => $banner->type))?>
+                            </div>
+                        </div>
+                        <div class="form-group" id="source-group">
+                            <label class="control-label col-md-2" for="source">Источник</label>
+                            <div class="col-md-5">
+                                <div class="radio">
+                                    <label>
+                                        <?=$this->tag->radioField(array('source', 'checked'=>$this->router->getActionName() == 'edit' ? 'checked' : null, 'value'=>'local'))?> Загруженный
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="radio">
+                                    <label>
+                                        <?=$this->tag->radioField(array('source', 'checked'=>$this->router->getActionName() == 'edit' ? null : 'checked', 'value'=>'file'))?> Загрузить
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="content-group">
+                            <label class="control-label col-md-2" for="content">Содержимое баннера</label>
+                            <div class="col-md-10" id="content-div">
+                            </div>
+                            <div class="col-md-10 col-md-offset-2" id="preview"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="max_impressions">Предел по показам</label>
+                            <div class="col-md-2">
+                                <?=$this->tag->numericField(array('max_impressions', 'value'=>$banner->max_impressions, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="start_date">Дата начала</label>
+                            <div class="col-md-4">
+                                <div class="input-group date datetimepicker">
+                                    <?=$this->tag->textField(array('start_date', 'value'=>empty($banner->start_date) ? date('d.m.Y H:i', time()) : date('d.m.Y H:i', $banner->start_date), 'class'=>'form-control datepickerinput'))?>
+                                    <span class="input-group-addon datepickerbutton"><span class="fa fa-calendar"></span></span>
+                                </div>
+                            </div>
+                            <label class="control-label col-md-2" for="end_date">Дата конца</label>
+                            <div class="col-md-4">
+                                <div class="input-group date datetimepicker">
+                                    <?=$this->tag->textField(array('end_date', 'value'=>empty($banner->end_date) ? '' : date('d.m.Y H:i', $banner->end_date), 'class'=>'form-control datepickerinput'))?>
+                                    <span class="input-group-addon datepickerbutton"><span class="fa fa-calendar"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="url_mask">URL-маска</label>
+                            <div class="col-md-10">
+                                <?=$this->tag->textField(array('url_mask', 'value'=>$banner->url_mask, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="banners_zones">Зоны</label>
+                            <div class="col-md-10">
+                                <?php
+                                $zones = \App\Models\Zones::find();
+                                foreach($zones as $zone):?>
+                                    <div class="checkbox">
+                                        <label>
+                                            <?=$this->tag->checkField(array('zones[]', 'checked'=>in_array($zone->id, $checked_zones) ? 'checked' : null, 'value'=>$zone->id))?> <?=$zone->name?>
+                                        </label>
+                                    </div>
+                                <?php endforeach;?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="advertiser_id">Рекламодатель</label>
+                            <div class="col-md-10">
+                                <?php
+                                $advs = \App\Models\Users::find(array('type = "advertiser"'));
+                                $arr = [];
+                                foreach ($advs as $adv) {
+                                    $arr[$adv->id] = $adv->getUsername();
+                                }
+                                ?>
+                                <?=$this->tag->selectStatic(array('advertiser_id', $arr, "useEmpty" => true, 'emptyText' => '', 'emptyValue' => '', 'value'=>$banner->advertiser_id, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-2">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <?php if($this->router->getActionName() == 'edit'):?>
+                                    <a href="<?=$this->url->get(array('for'=>'full', 'controller'=>'banners', 'action'=>'delete', 'id'=>$banner->id))?>" class="btn btn-danger">Удалить</a>
+                                <?php endif;?>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function() {
+        if(typeof(window.jQuery) == "function" && typeof(window.moment) == "function" && typeof(jQuery.fn.datetimepicker) == "function" && $('.datetimepicker').length == 2 && $('#source-group').length && $('#content-group').length) {
+
+            var bannerId = <?=empty($banner->id) ? 'undefined' : ('"'.$banner->id.'"')?>;
+
+            $('.datetimepicker').datetimepicker({
+                format: 'DD.MM.YYYY HH:mm',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash-o'
+                }
+            });
+
+            var selectUploadedBanner = function() {
+                if($('#type').val() == "image") {
+                    var img = new Image();
+                    img.src = $('select[name=content] option:selected').data('file');
+                    img.onload = function() {
+                        document.getElementById("preview").innerHTML = img.outerHTML;
+                        $('#preview').show();
+                        if($('#preview img').width() > $('#preview').width()) {
+                            $('#preview img').addClass("img-responsive");
+                        }
+                    };
+                } else if($('#type').val() == "flash") {
+
+                }
+            };
+
+            var sourceChange = function() {
+                var input = $('input[name="source"]:checked');
+                $('#content-div').html('');
+                $('#preview').hide();
+                if(input.val() == 'local') {
+                    $.getJSON('/ajax/get_banners', {type: $('#type').val()}, function(response) {
+                        if(response.banners.length) {
+                            $('#content-div').html('<select name="content" class="form-control"></select>');
+                            $.each(response.banners, function (index, banner) {
+                                $('select[name=content]').append('<option value="'+banner.id+'" data-file="'+response.directory+banner.content+'"'+(bannerId == banner.id ? ' selected="selected"' : '')+'>'+banner.name+'</option>');
+                            });
+                            selectUploadedBanner();
+                        } else {
+                            $('#content-div').html('<p class="form-control-static">Баннеры отсутствуют</p>');
+                        }
+                        $('#content-group').show();
+                    });
+                } else if(input.val() == 'file') {
+                    $('#content-div').html('<div id="upload" style="padding-top: 7px;"><span class="btn btn-success btn-file"><i class="fa fa-plus"></i> Выбрать… <input name="file" class="form-control" type="file" id="file"></span><span id="files"></span></div>');
+                    $('#content-group').show();
+                }
+            };
+
+            var typeChange = function() {
+                $('#preview').hide();
+                if($('#type').val() == "image") {
+                    $('#content-group').hide();
+                    $('#content-div').html('');
+                    $('#source-group').show();
+                    sourceChange();
+                } else if($('#type').val() == "flash") {
+                    $('#content-group').hide();
+                    $('#content-div').html('');
+                    $('#source-group').show();
+                    sourceChange();
+                } else if($('#type').val() == "html") {
+                    $('#source-group').hide();
+                    $('#content-div').html('<textarea rows="10" name="content" class="form-control"><?=$banner->content?></textarea>');
+                    $('#content-group').show();
+                }
+            };
+
+            $('#source-group').hide();
+            $('#content-group').hide();
+            typeChange();
+
+            $('#type').on('change', typeChange);
+
+            $('input[name="source"]').on('change', sourceChange);
+            $(document).on('change', 'select[name=content]', selectUploadedBanner);
+
+            $(document).on('change', '.btn-file :file', function() {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $(document).on('fileselect', '#file', function(event, numFiles, label) {
+                var input = $(this).parents('#upload').find('#files'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+                input.html(log);
+            });
+        }
+        else setTimeout(arguments.callee, 1000);
+    })();
+</script>

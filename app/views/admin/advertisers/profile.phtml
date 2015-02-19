@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Изменение информации</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <div class="padd">
+                    <form class="form-horizontal" method="post" action="">
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="lname">Фамилия</label>
+                            <div class="col-md-9">
+                                <?=$this->tag->textField(array('lname', 'value'=>$user->lname, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="fname">Имя <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <?=$this->tag->textField(array('fname', 'value'=>$user->fname, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="thname">Отчество</label>
+                            <div class="col-md-9">
+                                <?=$this->tag->textField(array('thname', 'value'=>$user->thname, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <input type="hidden" name="action" value="change_info">
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary">Изменить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Изменение E-mail</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <div class="padd">
+                    <form class="form-horizontal" method="post" action="">
+                        <input type="hidden" name="action" value="change_email">
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="email">E-mail</label>
+                            <div class="col-md-9">
+                                <?=$this->tag->textField(array('email', 'value'=>$user->email, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary">Изменить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Смена пароль</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <div class="padd">
+                    <form class="form-horizontal" method="post" action="">
+                        <input type="hidden" name="action" value="change_password">
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="password">Новый пароль</label>
+                            <div class="col-md-9">
+                                <?=$this->tag->passwordField(array('password', 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="password_confirm">Повтор</label>
+                            <div class="col-md-9">
+                                <?=$this->tag->passwordField(array('password_confirm', 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary">Сменить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

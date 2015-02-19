@@ -1,0 +1,13 @@
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0"<?=empty($banner->width) ? '' : ' width="'.$banner->width.'"'?><?=empty($banner->height) ? '' : ' height="'.$banner->height.'"'?>>
+    <param name="movie" value="<?=$this->url->getStatic($this->config->banners->flashPath.$banner->content)?>">
+
+    <param name="quality" value="high">
+    <param name="wmode" value="opaque">
+    <?php
+    $link = $this->url->get(array('for'=>'full', 'controller'=>'rotator', 'action'=>'click', 'id'=>$banner->id), array('view'=>$view));
+    $link1 = "flashvars=\"link1=$link\"";
+    ?>
+    <param name="flashvars" value="link1=<?=$link?>" />
+    <embed src="<?=$this->url->getStatic($this->config->banners->flashPath.$banner->content)?>" <?=$link1?> quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" wmode="opaque"<?=empty($banner->width) ? '' : ' width="'.$banner->width.'"'?><?=empty($banner->height) ? '' : ' height="'.$banner->height.'"'?>>
+    </embed>
+</object>

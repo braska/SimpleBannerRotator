@@ -1,0 +1,148 @@
+.mainbar .page-head h2 {
+    margin-top: 6px;
+}
+
+.mainbar .page-head {
+    padding: 0 20px;
+}
+
+.sidebar #nav > li > a {
+    padding: 6px 20px;
+}
+
+body {
+    padding-top: 0;
+    border: none;
+}
+
+.mainbar .page-head {
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+}
+
+.mainbar .matter {
+    border-top: none;
+    padding: 0;
+}
+
+.none {
+    text-align: center;
+    font-style: italic;
+    padding: 20px 0;
+}
+
+.navbar-nav>li>a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.navbar-nav {
+    margin: 0;
+}
+
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #000 !important;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+.today-datas li .datas-text {
+    padding: 0;
+}
+
+.callout {
+    margin: 0 0 20px 0;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid #eee;
+}
+.callout h1,
+.callout h2,
+.callout h3,
+.callout h4,
+.callout h5,
+.callout h6 {
+    margin-top: 0;
+}
+
+.callout-danger h1,
+.callout-danger h2,
+.callout-danger h3,
+.callout-danger h4,
+.callout-danger h5,
+.callout-danger h6 {
+    color: #B94A48;
+}
+
+.callout-warning h1,
+.callout-warning h2,
+.callout-warning h3,
+.callout-warning h4,
+.callout-warning h5,
+.callout-warning h6 {
+    color: #C09853;
+}
+
+.callout-info h1,
+.callout-info h2,
+.callout-info h3,
+.callout-info h4,
+.callout-info h5,
+.callout-info h6 {
+    color: #3A87AD;
+}
+
+.callout-success h1,
+.callout-success h2,
+.callout-success h3,
+.callout-success h4,
+.callout-success h5,
+.callout-success h6 {
+    color: #3C763D;
+}
+
+.callout p:last-child {
+    margin-bottom: 0;
+}
+
+.callout code,
+.callout .highlight {
+    background-color: #fff;
+}
+
+.callout-danger {
+    background-color: #fcf2f2;
+    border-color: #dFb5b4;
+}
+.callout-warning {
+    background-color: #fefbed;
+    border-color: #f1e7bc;
+}
+.callout-info {
+    background-color: #f0f7fd;
+    border-color: #d0e3f0;
+}
+.callout-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.callout-info h4 {
+    color: #3A87AD;
+}

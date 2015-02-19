@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-success btn-lg btn-block" href="<?=$this->url->get(array('for'=>'action', 'controller'=>'advertisers', 'action'=>'add'))?>"><i class="fa fa-plus"></i> Добавить рекламодателя</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Список рекламодателей</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <?php if(count($advertisers)):?>
+                <div class="padd">
+                    <?php foreach($advertisers as $advertiser):?>
+                    <div class="user">
+                        <div class="user-pic">
+                            <a href="<?=$this->url->get(array('for'=>'full', 'controller'=>'advertisers', 'action'=>'profile', 'id'=>$advertiser->id))?>">
+                                <img src="<?=\App\Library\Functions::get_gravatar_url($advertiser->email)?>">
+                            </a>
+                        </div>
+
+                        <div class="user-details">
+                            <h4><?=$advertiser->getUsername();?></h4>
+                            <a href="<?=$this->url->get(array('for'=>'full', 'controller'=>'advertisers', 'action'=>'profile', 'id'=>$advertiser->id))?>" class="btn btn-info btn-xs"><i class="fa fa-user"></i> Страница управление рекламодателем</a><br />
+                            <a href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array('advertiser'=>$advertiser->id))?>" class="btn btn-info btn-xs"><i class="fa fa-picture-o"></i> Баннеры</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <hr>
+                    <?php endforeach;?>
+                </div>
+                <?php else:?>
+                <p class="none">Нет рекламодателей. <a href="<?=$this->url->get(array('for'=>'action', 'controller'=>'advertisers', 'action'=>'add'))?>">Добавить?</a></p>
+                <?php endif;?>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-success btn-lg btn-block" href="<?=$this->url->get(array('for'=>'action', 'controller'=>'banners', 'action'=>'add'))?>"><i class="fa fa-plus"></i> Добавить баннер</a>
+    </div>
+</div>
+<div class="row" style="margin-top: 10px;">
+    <?php
+    $getCleanQuery = function(array $unset = null) {
+        $q = $this->request->getQuery();
+        unset($q['_url']);
+        if(count($unset))
+            foreach($unset as $u)
+                unset($q[$u]);
+        return $q;
+    };
+    ?>
+    <div class="col-md-3">
+        <a class="btn btn-info btn-lg btn-block" href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'banners'))?>">Только активные (<span data-count="<?=$this->url->get(array('for'=>'action', 'controller'=>'banners', 'action'=>'count'), $getCleanQuery(array('filter', 'archived')))?>"><img src="/img/loader.gif" style="width: 20px;"></span>)</a>
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-info btn-lg btn-block" href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('filter' => 'finished')))?>">Выполненные (<span data-count="<?=$this->url->get(array('for'=>'action', 'controller'=>'banners', 'action'=>'count'), array_merge($getCleanQuery(), array('filter' => 'finished')))?>"><img src="/img/loader.gif" style="width: 20px;"></span>)</a>
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-info btn-lg btn-block" href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('filter' => 'deactivated')))?>">Деактивированные (<span data-count="<?=$this->url->get(array('for'=>'action', 'controller'=>'banners', 'action'=>'count'), array_merge($getCleanQuery(), array('filter' => 'deactivated')))?>"><img src="/img/loader.gif" style="width: 20px;"></span>)</a>
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-info btn-lg btn-block" href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(array('filter')), array('archived' => '1')))?>">Архивные (<span data-count="<?=$this->url->get(array('for'=>'action', 'controller'=>'banners', 'action'=>'count'), array_merge($getCleanQuery(array('filter')), array('archived' => '1')))?>"><img src="/img/loader.gif" style="width: 20px;"></span>)</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var onload = function() {
+        if(typeof(window.jQuery) == "function")
+            $(document).ready(function () {
+                $('[data-count]').each(function () {
+                    var elem = $(this);
+                    $.get(elem.data('count'), function (response) {
+                        console.log(response);
+                        if ($.isNumeric(response))
+                            elem.html(response);
+                        else
+                            elem.html('?');
+                    });
+                });
+            });
+        else setTimeout(onload, 1000);
+    };
+    onload();
+</script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Список баннеров</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <?php if(count($banners)):?>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Имя</th>
+                            <th>Приоритет</th>
+                            <th>Кликов</th>
+                            <th>Показов</th>
+                            <th>CTR</th>
+                            <th>Предел по показам</th>
+                            <th>Дата начала показа</th>
+                            <th>Дата конца показа</th>
+                            <th>URL-маска</th>
+                            <th>Рекламодатель</th>
+                            <th>Зоны показа</th>
+                            <th style="width: 120px;">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($banners as $banner):?>
+                            <tr>
+                                <td><?=$banner->id?></td>
+                                <td><a href="<?=$this->url->get(array('for'=>'full', 'controller'=>'banners', 'action'=>'statistic', 'id'=>$banner->id))?>"><?=$banner->name?></a></td>
+                                <td><?=$banner->priority?></td>
+                                <td><?php $cliсks = $banner->countViews(array('clicked = 1')); echo $cliсks;?></td>
+                                <td><?php $views = $banner->countViews(); echo $views;?></td>
+                                <td><?=round(($cliсks / $views) * 100, 2)?>%</td>
+                                <td><?=!empty($banner->max_impressions) ? $banner->max_impressions : '&infin;'?></td>
+                                <td><?=!empty($banner->start_date) ? $banner->getStartDate() : '&infin;'?></td>
+                                <td><?=!empty($banner->end_date) ? $banner->getEndDate() : '&infin;'?></td>
+                                <td style="word-wrap: break-word; word-break: break-all;"><?=$banner->url_mask?></td>
+                                <td><?=!empty($banner->advertiser_id) ? '<a href="'.$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('advertiser'=>$banner->advertiser_id))).'">'.$banner->advertiser->getUsername().'</a>' : ''?></td>
+                                <td>
+                                    <?php $zones = $banner->getZones();
+                                    $arr = [];
+                                    foreach($zones as $zone) {
+                                        $arr[] = '<a href="'.$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('zone' => $zone->id))).'">'.$zone->name.'</a>';
+                                    }
+                                    echo implode(', ', $arr);
+                                    ?>
+                                </td>
+                                <td>
+                                    <a class="btn btn-xs btn-info" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'banners', 'action'=>'statistic', 'id'=>$banner->id))?>" rel="tooltip" title="Статистика" data-placement="bottom"><i class="fa fa-bar-chart-o"></i></a>
+                                    <a class="btn btn-xs btn-success" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'banners', 'action'=>'edit', 'id'=>$banner->id))?>" rel="tooltip" title="Редактирование" data-placement="bottom"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-xs <?=$banner->archived == 1 ? 'btn-warning' : 'btn-danger'?>" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'banners', 'action'=>'toggle_archived', 'id'=>$banner->id))?>" rel="tooltip" title="<?=$banner->archived == 1 ? 'Изъять из архива' : 'В архив'?>" data-placement="bottom"><i class="fa fa-trash-o"></i></a>
+                                    <a class="btn btn-xs <?=$banner->active? 'btn-warning' : 'btn-default'?>" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'banners', 'action'=>'toggle', 'id'=>$banner->id))?>" rel="tooltip" title="<?=$banner->active == 1 ? 'Деактивировать' : 'Активировать'?>" data-placement="bottom"><i class="fa fa-<?=$banner->active? 'minus' : 'plus'?>"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach?>
+
+                        </tbody>
+                    </table>
+                <?php else:?>
+                <p class="none">Нет баннеров. <a href="<?=$this->url->get(array('for'=>'action', 'controller'=>'banners', 'action'=>'add'))?>">Добавить баннер?</a></p>
+                <?php endif;?>
+            </div>
+        </div>
+    </div>
+</div>

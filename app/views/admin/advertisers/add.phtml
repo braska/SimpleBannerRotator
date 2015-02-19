@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-5">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Заполните форму</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <div class="padd">
+                    <form class="form-horizontal" method="post" action="">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="lname">Фамилия</label>
+                            <div class="col-md-6">
+                                <?=$this->tag->textField(array('lname', 'value'=>$user->lname, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="fname">Имя <span style="color: red;">*</span></label>
+                            <div class="col-md-6">
+                                <?=$this->tag->textField(array('fname', 'value'=>$user->fname, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="thname">Отчество</label>
+                            <div class="col-md-6">
+                                <?=$this->tag->textField(array('thname', 'value'=>$user->thname, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="email">E-mail <span style="color: red;">*</span></label>
+                            <div class="col-md-6">
+                                <?=$this->tag->textField(array('email', 'value'=>$user->email, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="password">Пароль <span style="color: red;">*</span></label>
+                            <div class="col-md-6">
+                                <?=$this->tag->passwordField(array('password', 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="password_confirm">Повтор пароля <span style="color: red;">*</span></label>
+                            <div class="col-md-6">
+                                <?=$this->tag->passwordField(array('password_confirm', 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-2">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

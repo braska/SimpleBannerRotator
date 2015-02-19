@@ -1,0 +1,19 @@
+<ul id="nav">
+    <!--<li class="has_sub">
+        <a href="#"><i class="fa fa-list-alt"></i> Widgets  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+        <ul>
+            <li><a href="widgets1.html">Widgets #1</a></li>
+            <li><a href="widgets2.html">Widgets #2</a></li>
+            <li><a href="widgets3.html">Widgets #3</a></li>
+        </ul>
+    </li>-->
+    <li><a href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'zones'))?>"><i class="fa fa-th-large"></i> Зоны</a></li>
+    <li><a href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'advertisers'))?>"><i class="fa fa-user"></i> Рекламодатели</a></li>
+    <li><a href="<?=$this->url->get(array('for'=>'controller', 'controller'=>'banners'))?>"><i class="fa fa-picture-o"></i> Баннеры</a></li>
+    <li>
+        <div class="callout callout-info">
+            <h4>Обратите внимание!</h4>
+            <p>Сбор и вывод статистики осуществляется по московскому времени (UTC+3).</p>
+        </div>
+    </li>
+</ul>

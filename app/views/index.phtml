@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <?= \Phalcon\Tag::getTitle() ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <?php $this->assets->outputCss('css'); ?>
+
+    <?php $this->assets->outputJs('head-js'); ?>
+
+    <link rel="shortcut icon" href="/img/favicon.png">
+</head>
+
+<body>
+<div class="content">
+    <div class="sidebar">
+        <div class="sidebar-dropdown"><a href="#">Меню</a></div>
+        <?php $this->partial("menu"); ?>
+    </div>
+
+    <div class="mainbar">
+
+        <div class="page-head navbar">
+            <h2 class="pull-left"><?= isset($title) ? $title : '' ?></h2>
+
+            <ul class="nav navbar-nav pull-right">
+                <li class="dropdown pull-right">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <img src="<?=\App\Library\Functions::get_gravatar_url($this->auth->get_user()->email, 40)?>" class="img-circle"> <?=$this->auth->get_user()->getUsername();?> <b class="caret"></b>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li><a href="/logout"><i class="fa fa-sign-out"></i> Выйти</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        <div class="matter">
+            <div class="container">
+                <?php $this->flashSession->output();?>
+                <?= $this->getContent() . "\n" ?>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="clearfix"></div>
+
+</div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="copy">Copyright &copy; 2015</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<span class="totop"><a href="#"><i class="fa fa-chevron-up"></i></a></span>
+
+<?php $this->assets->outputJs('bottom-js'); ?>
+
+</body>
+</html>

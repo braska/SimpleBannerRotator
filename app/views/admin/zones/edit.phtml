@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-md-5">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Заполните форму</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <div class="padd">
+                    <form class="form-horizontal" method="post" action="">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="text">Имя</label>
+                            <div class="col-md-6">
+                                <?=$this->tag->textField(array('name', 'value'=>$zone->name, 'class'=>'form-control'))?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-2">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <?php if($this->router->getActionName() == 'edit'):?>
+                                    <a href="<?=$this->url->get(array('for'=>'full', 'controller'=>'zones', 'action'=>'delete', 'id'=>$zone->id))?>" class="btn btn-danger">Удалить</a>
+                                <?php endif;?>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

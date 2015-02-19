@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-md-5">
+        <div class="widget">
+            <div class="widget-head">
+                <div class="pull-left">Подтверждение</div>
+                <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+                <div class="padd">
+                    <p>Вы подтверждаете удаление зоны? Это приведёт к прекращению показа связанных с ней баннеров.</p>
+                </div>
+            </div>
+            <div class="widget-foot">
+                <a class="btn btn-danger" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'zones', 'action'=>'delete', 'id'=>$zone->id), array('confirm'=>'true'))?>">Удалить!</a>
+                <a class="btn btn-default" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'zones', 'action'=>'delete', 'id'=>$zone->id), array('confirm'=>'false'))?>">Отмена</a>
+            </div>
+        </div>
+    </div>
+</div>
