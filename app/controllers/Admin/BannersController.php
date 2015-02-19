@@ -61,7 +61,8 @@ class BannersController extends ControllerBase {
             else {
                 if(($this->request->getPost('type') == "image" || $this->request->getPost('type') == "flash") && $this->request->getPost('source') == "file") {
                     if ($this->request->hasFiles()) {
-                        $file = $this->request->getUploadedFiles()[0];
+                        $file = $this->request->getUploadedFiles();
+                        $file = $file[0];
                         $validation = new \Phalcon\Validation();
                         $validation->add('file', new UploadValid());
                         if($this->request->getPost('type') == "image") {
@@ -112,7 +113,7 @@ class BannersController extends ControllerBase {
 
             }
         }
-        $this->view->checked_zones = $this->request->getPost('zones') ? $this->request->getPost('zones') : [];
+        $this->view->checked_zones = $this->request->getPost('zones') ? $this->request->getPost('zones') : array();
         $this->view->banner = $banner;
         $this->view->pick("banners/edit");
         $this->view->title = "Добавление баннера";
@@ -155,7 +156,8 @@ class BannersController extends ControllerBase {
                 } else {
                     if (($this->request->getPost('type') == "image" || $this->request->getPost('type') == "flash") && $this->request->getPost('source') == "file") {
                         if ($this->request->hasFiles()) {
-                            $file = $this->request->getUploadedFiles()[0];
+                            $file = $this->request->getUploadedFiles();
+                            $file = $file[0];
                             $validation = new \Phalcon\Validation();
                             $validation->add('file', new UploadValid());
                             if ($this->request->getPost('type') == "image") {
@@ -265,7 +267,7 @@ class BannersController extends ControllerBase {
                 $end_date = mktime($end_date['hour'], $end_date['minute'], 0, $end_date['month'], $end_date['day'], $end_date['year']);
             }
             $days = (floor(($end_date + 10800)  / 86400)) - (floor(($start_date + 10800) / 86400)) + 1;
-            $days_arr = [];
+            $days_arr = array();
             if($days > 0) {
                 for($i = 0; $i < $days; $i++) {
                     $day = floor(($start_date + 10800) / 86400) * 86400 + $i*86400 - 10800;
