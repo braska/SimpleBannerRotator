@@ -5,6 +5,10 @@ SimpleBannerRotator &mdash; это предельно минимизирован
 * Рекламодатели
 * Баннеры
 
+## Требования
+* PHP >= 5.5
+* [Phalcon](http://phalconphp.com/)
+
 ## Установка
 1. Переименовать файл /app/config/config.ini.example в config.ini и отредактировать его, сменив данные для поключения к БД
 2. Импортировать sql_dump.sql в базу

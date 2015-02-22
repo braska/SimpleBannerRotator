@@ -14,9 +14,6 @@ class RotatorController extends ControllerBase {
 
     public function getAction() {
         $url = $this->request->getQuery('url');
-        /**
-         * ToDo: принцип выбора баннера на основе приоритета
-         */
         $banners = $this->modelsManager->createBuilder()
             ->from(array('b'=>'App\Models\Banners'))
             ->leftJoin('App\Models\Views', 'b.id = v.banner_id AND IF(b.start_date IS NULL, 1, IF(v.date >= b.start_date, 1, 0)) = 1 AND IF(b.end_date IS NULL, 1, IF(v.date < b.end_date, 1, 0)) = 1', 'v')
