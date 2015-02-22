@@ -238,8 +238,10 @@ class BannersController extends ControllerBase {
                 ->addJs('js/moment/moment.min.js')
                 ->addJs('js/moment/ru.js')
                 ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js');
+                
             $this->assets->collection('css')
                 ->addCss('js/datetimepicker/css/bootstrap-datetimepicker.min.css');
+                
             if(!$this->request->getQuery('start_date')) {
                 if (!empty($banner->start_date)) {
                     $start_date = $banner->start_date;
@@ -286,7 +288,9 @@ class BannersController extends ControllerBase {
             $this->view->banner = $banner;
             $this->view->title = "Статистика для баннера \"{$banner->name}\"";
             \Phalcon\Tag::prependTitle("Статистика для баннера \"{$banner->name}\"");
-        } else $this->dispatcher->forward(array("namespace"=>'App\Controllers', "controller" => "error", "action" => "notFound"));
+        }
+        else
+            $this->dispatcher->forward(array("namespace"=>'App\Controllers', "controller" => "error", "action" => "notFound"));
     }
 
     public function toggleAction() {

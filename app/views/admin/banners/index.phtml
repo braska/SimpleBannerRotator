@@ -5,9 +5,8 @@
 </div>
 <div class="row" style="margin-top: 10px;">
     <?php
-    $q = $this->request->getQuery();
-    
-    $getCleanQuery = function(array $unset = null) {    
+    $getCleanQuery = function(array $unset = null) {
+        $q = $this->request->getQuery();
         unset($q['_url']);
         if(count($unset))
             foreach($unset as $u)
@@ -95,7 +94,7 @@
                                 <td><?=!empty($banner->advertiser_id) ? '<a href="'.$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('advertiser'=>$banner->advertiser_id))).'">'.$banner->advertiser->getUsername().'</a>' : ''?></td>
                                 <td>
                                     <?php $zones = $banner->getZones();
-                                    $arr = array();
+                                    $arr = [];
                                     foreach($zones as $zone) {
                                         $arr[] = '<a href="'.$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('zone' => $zone->id))).'">'.$zone->name.'</a>';
                                     }

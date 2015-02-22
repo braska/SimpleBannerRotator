@@ -7,16 +7,13 @@ use App\Models\Views;
 use Phalcon\Mvc\View;
 
 class RotatorController extends ControllerBase {
-    protected function initialize()
-    {
+    protected function initialize() {
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
     public function getAction() {
         $url = $this->request->getQuery('url');
-        /**
-         * ToDo: принцип выбора баннера на основе приоритета
-         */
+
         $banners = $this->modelsManager->createBuilder()
             ->from(array('b'=>'App\Models\Banners'))
             ->leftJoin('App\Models\Views', 'b.id = v.banner_id AND IF(b.start_date IS NULL, 1, IF(v.date >= b.start_date, 1, 0)) = 1 AND IF(b.end_date IS NULL, 1, IF(v.date < b.end_date, 1, 0)) = 1', 'v')
@@ -26,6 +23,7 @@ class RotatorController extends ControllerBase {
             ->having('max_impressions IS NULL OR COUNT(v.id) < max_impressions')
             ->getQuery()
             ->execute();
+            
         if(count($banners)) {
 
             $existsNonzeroPriority = false;
@@ -38,7 +36,7 @@ class RotatorController extends ControllerBase {
                 }
             });
 
-            $segments = [];
+            $segments = array();
             $end = 0;
             foreach ($banners as $banner) {
                 $priority = $existsNonzeroPriority ? $banner->priority : 1;
@@ -58,7 +56,7 @@ class RotatorController extends ControllerBase {
             if((isset($banner_selected) && empty($banner_selected->id)) || !isset($banner_selected)) return;
 
             $view = new Views();
-            $view->save(array('date'=>time(), 'banner_id'=>$banner_selected->id));
+            $view->save(array('date'=>time(), 'banner_id'=>$banner_selected->id, 'zone_id'=>$this->request->getQuery('zone_id', 'int')));
             $this->view->view = $view->id;
 
             if($banner_selected->type == "image")
