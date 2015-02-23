@@ -87,7 +87,12 @@
                                 <td><?=date('d.m.Y', $day['date'])?></td>
                                 <td><?=$day['views']?></td>
                                 <td><?=$day['clicks']?></td>
-                                <td><?=round(($day['clicks']/$day['views'])*100, 2)?>%</td>
+                                <td><?php
+                                    if((int) $day['views'] > 0)
+                                        echo round(($day['clicks']/$day['views'])*100, 2);
+                                    else
+                                        echo 0;
+                                ?>%</td>
                             </tr>
                         <?php endforeach?>
 
