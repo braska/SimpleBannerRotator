@@ -1,5 +1,5 @@
 <?php
 
 $vars = new Phalcon\Config(array(
-    'sitename' => 'Баннерная Сеть'
+    'sitename' => 'ClienDDev ads'
 ));

@@ -99,13 +99,8 @@ class RotatorController extends ControllerBase {
         if(count($banners)) {
             $existsNonzeroPriority = false;
             
-            $banners = $banners->filter(function($banner) use (&$existsNonzeroPriority, $url) {
-                if((!empty($banner->url_mask) && preg_match($banner->url_mask, $url) == 1) || empty($banner->url_mask)) {
-                    if($banner->priority != 0)
-                        $existsNonzeroPriority = true;
-                    return $banner;
-                }
-            });
+            if($banner->priority != 0)
+                $existsNonzeroPriority = true;
 
             $segments = array();
             $end = 0;
