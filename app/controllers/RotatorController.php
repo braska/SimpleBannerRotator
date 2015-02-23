@@ -79,8 +79,9 @@ class RotatorController extends ControllerBase {
     
     public function get_mobileAction(){
         $zone_id = $this->request->getQuery('zone_id', 'int');
+        $key = $this->request->getQuery(sha1($_SERVER['HTTP_HOST']), 'string');
         
-        if(!$zone_id){
+        if(!$zone_id OR $key !== base64_encode(sha1(sha1($_SERVER['HTTP_HOST'])))){
             $this->response->setStatusCode(400, 'Bad request');
             return $this->response->send();
         }
