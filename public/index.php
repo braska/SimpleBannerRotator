@@ -60,24 +60,6 @@ try
             "charset"   => $config->database->charset
         ));
 
-       /*
-            $connection = new \App\Library\Db\Adapter\Cacheable\Mysql(array(
-                "host" => $config->database->host,
-                "username" => $config->database->username,
-                "password" => $config->database->password,
-                "dbname" => $config->database->dbname,
-                "charset"   => $config->database->charset
-            ));
-
-            $frontCache = new \Phalcon\Cache\Frontend\Data(array(
-                "lifetime" => 30
-            ));
-
-            //File backend settings
-            $connection->setCache(new \Phalcon\Cache\Backend\File($frontCache, array(
-                "cacheDir" => APPLICATION_PATH.$config->app->cacheDir,
-            )));*/
-
         return $connection;
     });
 
@@ -170,22 +152,11 @@ try
     require '../app/config/vars.php';
     $di->setShared('vars', $vars);
 
-    if(ENVIRONMENT == ENVIRONMENT_DEVELOPMENT) {
-        $namespaces = array_merge($loader->getNamespaces(), array('PDW'=>__DIR__.'/../PDW'));
-        $loader->registerNamespaces($namespaces);
-        $debugWidget = new \PDW\DebugWidget($di);
-    }
-    if(ENVIRONMENT == ENVIRONMENT_PRODUCTION) {
-        $di->set('modelsMetadata', function() use ($config) {
-            $metaData = new \Phalcon\Mvc\Model\MetaData\Files(array(
-                "lifetime" => 86400,
-                "prefix"   => "goldkamea",
-                'metaDataDir' => APPLICATION_PATH.$config->app->cacheDir.'metadata/'
-            ));
-
-            return $metaData;
-        });
-    }
+    //if(ENVIRONMENT == ENVIRONMENT_DEVELOPMENT) {
+    //    $namespaces = array_merge($loader->getNamespaces(), array('PDW'=>__DIR__.'/../PDW'));
+    //    $loader->registerNamespaces($namespaces);
+    //    $debugWidget = new \PDW\DebugWidget($di);
+    //}
 
 
     $di->set('viewCache', function() use ($config){
