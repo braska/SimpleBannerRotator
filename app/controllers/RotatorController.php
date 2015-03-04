@@ -27,9 +27,15 @@ class RotatorController extends ControllerBase {
 
             $banners = $banners->filter(function($banner) use (&$existsNonzeroPriority, $url) {
                 if((!empty($banner->url_mask) && preg_match($banner->url_mask, $url) == 1) || empty($banner->url_mask)) {
-                    $q = (empty($banner->start_date) ? '' : ('date >= '.$banner->start_date)).(empty($banner->end_date) ? '' : (' AND date < '.$banner->end_date));
-                    $views = $banner->countViews(array($q));
-                    if($banner->max_impressions < $views) {
+                    if(!empty($banner->max_impressions)) {
+                        $q = (empty($banner->start_date) ? '' : ('date >= ' . $banner->start_date)) . (empty($banner->end_date) ? '' : (' AND date < ' . $banner->end_date));
+                        $views = $banner->countViews(array($q));
+                        if ($views < $banner->max_impressions) {
+                            if ($banner->priority != 0)
+                                $existsNonzeroPriority = true;
+                            return $banner;
+                        }
+                    } else {
                         if ($banner->priority != 0)
                             $existsNonzeroPriority = true;
                         return $banner;
