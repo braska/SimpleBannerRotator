@@ -7,13 +7,16 @@ SimpleBannerRotator &mdash; это предельно минимизирован
 
 ## Требования
 * PHP >= 5.5
-* [Phalcon](http://phalconphp.com/)
+* [Phalcon](http://phalconphp.com/) >= 2.0.0
 
 ## Установка
 1. Переименовать файл /app/config/config.ini.example в config.ini и отредактировать его, сменив данные для поключения к БД
 2. Импортировать sql_dump.sql в базу
 
 Конфигурационный файл для nginx прилагается ([banners.conf](https://github.com/braska/SimpleBannerRotator/blob/master/banners.conf))
+Стандартные данные для входа в админпанель:
+E-mail: test@test.ru
+Пароль: 4444
 
 ## Использование
 1. В шапку сайта, на котором требуется транслировать баннеры, нужно вставить основной скрипт баннеро-ротатора:
