@@ -60,7 +60,7 @@ class BannersController extends ControllerBase {
             }
             else {
                 if(($this->request->getPost('type') == "image" || $this->request->getPost('type') == "flash") && $this->request->getPost('source') == "file") {
-                    if ($this->request->hasFiles()) {
+                    if ($this->request->hasFiles(true)) {
                         $file = $this->request->getUploadedFiles()[0];
                         $validation = new \Phalcon\Validation();
                         $validation->add('file', new UploadValid());
@@ -154,7 +154,7 @@ class BannersController extends ControllerBase {
                     }
                 } else {
                     if (($this->request->getPost('type') == "image" || $this->request->getPost('type') == "flash") && $this->request->getPost('source') == "file") {
-                        if ($this->request->hasFiles()) {
+                        if ($this->request->hasFiles(true)) {
                             $file = $this->request->getUploadedFiles()[0];
                             $validation = new \Phalcon\Validation();
                             $validation->add('file', new UploadValid());

@@ -29,7 +29,7 @@ session_role  = "auth_user_role"
 options[lifetime] = 1209600
 
 [crypt]
-key = "need_a_key"
+key = "need_a_key_16sym"
 
 [banners]
 flashPath = "content/flash/"
