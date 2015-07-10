@@ -7,7 +7,7 @@ use Phalcon\Validation\Validator,
 
 class UploadImage extends Validator implements ValidatorInterface
 {
-    public function validate($validator, $attribute)
+    public function validate(\Phalcon\Validation $validator, $attribute)
     {
         $value = $validator->getValue($attribute);
         if((bool) getimagesize($value['tmp_name']))

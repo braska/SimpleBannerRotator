@@ -8,7 +8,7 @@ use Phalcon\Validation\Validator,
 
 class UploadSize extends Validator implements ValidatorInterface
 {
-    public function validate($validator, $attribute)
+    public function validate(\Phalcon\Validation $validator, $attribute)
     {
         $value = $validator->getValue($attribute);
         $size = $this->getOption('max');

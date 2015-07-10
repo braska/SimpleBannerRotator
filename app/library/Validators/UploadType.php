@@ -7,7 +7,7 @@ use Phalcon\Validation\Validator,
 
 class UploadType extends Validator implements ValidatorInterface
 {
-    public function validate($validator, $attribute)
+    public function validate(\Phalcon\Validation $validator, $attribute)
     {
         $value = $validator->getValue($attribute);
         $allowed = $this->getOption('allowed');
