@@ -152,12 +152,16 @@ try
         $di->set('modelsMetadata', function() use ($config) {
             $metaData = new \Phalcon\Mvc\Model\MetaData\Files(array(
                 "lifetime" => 86400,
-                "prefix"   => "goldkamea",
+                "prefix"   => "banners",
                 'metaDataDir' => APPLICATION_PATH.$config->app->cacheDir.'metadata/'
             ));
 
             return $metaData;
         });
+    } else {
+        $namespaces = array_merge($loader->getNamespaces(), array('PDW'=>realpath(__DIR__."/../PDW/")));
+        $loader->registerNamespaces($namespaces);
+        $debugWidget = new \PDW\DebugWidget($di);
     }
 
 
