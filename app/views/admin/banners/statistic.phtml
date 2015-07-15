@@ -85,7 +85,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($days as $day):?>
+                        <?php
+
+                        foreach(array_reverse($days) as $day):?>
                             <?php $day_of_week = date('N', $day['date']) - 1;?>
                             <tr<?=($day_of_week == 6 || $day_of_week == 5) ? ' class="warning"' : ''?>>
                                 <td><?=date('d.m.Y', $day['date'])?>, <?=$days_of_week[$day_of_week]?></td>
