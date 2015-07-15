@@ -338,18 +338,12 @@ class BannersController extends ControllerBase {
         if ($this->request->getQuery('filter') == 'deactivated')
             $banners = $banners->andWhere('active = 0');
         elseif ($this->request->getQuery('filter') == 'finished') {
-            $banners = $banners
-                ->leftJoin('App\Models\Views', 'b.id = v.banner_id AND IF(b.start_date IS NULL, 1, IF(v.date >= b.start_date, 1, 0)) = 1 AND IF(b.end_date IS NULL, 1, IF(v.date < b.end_date, 1, 0)) = 1', 'v')
-                ->groupBy('b.id')
-                ->having('(b.end_date IS NOT NULL AND '.time().' > b.end_date) OR (max_impressions IS NOT NULL AND COUNT(v.id) >= max_impressions)');
+            // см. $banners->filter(...);
         }
         elseif(!$this->request->getQuery('archived') || $this->request->getQuery('archived') != 1)
             // это фильтр для активных баннеров, но вместе с ними показываются и те что ещё не начали показываться (start_date > time())
             $banners = $banners
-                ->leftJoin('App\Models\Views', 'b.id = v.banner_id AND IF(b.start_date IS NULL, 1, IF(v.date >= b.start_date, 1, 0)) = 1 AND IF(b.end_date IS NULL, 1, IF(v.date < b.end_date, 1, 0)) = 1', 'v')
-                ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND active = 1 AND archived = 0")
-                ->groupBy('b.id')
-                ->having('max_impressions IS NULL OR COUNT(v.id) < max_impressions');
+                ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND active = 1");
         if($this->request->getQuery('zone')) {
             $banners = $banners
                 ->innerJoin('App\Models\BannersZones', 'b.id = bz.banner_id AND bz.zone_id = ' . $this->request->getQuery('zone', 'int'), 'bz');
@@ -366,6 +360,41 @@ class BannersController extends ControllerBase {
             ->orderBy('b.id DESC')
             ->getQuery()
             ->execute();
+        if ($this->request->getQuery('filter') == 'finished' || !$this->request->getQuery('archived') || $this->request->getQuery('archived') != 1) {
+            $banners = $banners->filter(function($banner) {
+                $ok = true;
+                if ($banner->max_impressions != null) {
+                    if (($banner->start_date != null || $banner->end_date != null)) {
+                        $count_conditions = [];
+                        if ($banner->start_date != null) {
+                            $count_conditions[] = 'date >= ' . $banner->start_date;
+                        }
+                        if ($banner->end_date != null) {
+                            $count_conditions[] = 'date < ' . $banner->end_date;
+                        }
+                        $count_views = $banner->countViews([implode(' AND ', $count_conditions)]);
+                    } else {
+                        $count_views = $banner->countViews();
+                    }
+                }
+                if ($this->request->getQuery('filter') == 'finished') {
+                    $ok = false;
+                    if (($banner->end_date != null && time() > $banner->end_date) ) {
+                        $ok = true;
+                    }
+                    if ($banner->max_impressions != null && $count_views >= $banner->max_impressions) {
+                        $ok = true;
+                    }
+                } elseif (!$this->request->getQuery('archived') || $this->request->getQuery('archived') != 1) {
+                    if ($banner->max_impressions != null && $count_views >= $banner->max_impressions) {
+                        $ok = false;
+                    }
+                }
+                if ($ok) {
+                    return $banner;
+                }
+            });
+        }
         return $banners;
     }
 }
