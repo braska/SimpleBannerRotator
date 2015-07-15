@@ -253,7 +253,7 @@ class BannersController extends ControllerBase {
                 $start_date = mktime($start_date['hour'], $start_date['minute'], 0, $start_date['month'], $start_date['day'], $start_date['year']);
             }
 
-            if(!$this->request->getQuery('start_date')) {
+            if(!$this->request->getQuery('end_date')) {
                 if (!empty($banner->end_date)) {
                     if ($banner->end_date > time()) {
                         $end_date = time();

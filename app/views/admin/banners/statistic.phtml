@@ -54,7 +54,7 @@
             </li>
             <li>
                 <div><span style="font-size: 30px; color: darkgreen; line-height: 30px;">CTR</span></div>
-                <div class="datas-text"><?=round(($clicks / $views)*100, 2)?>%</div>
+                <div class="datas-text"><?=$views == 0 ? 0 : round(($clicks / $views)*100, 2)?>%</div>
             </li>
         </ul>
     </div>
@@ -91,7 +91,7 @@
                                 <td><?=date('d.m.Y', $day['date'])?>, <?=$days_of_week[$day_of_week]?></td>
                                 <td><?=$day['views']?></td>
                                 <td><?=$day['clicks']?></td>
-                                <td><?=round(($day['clicks']/$day['views'])*100, 2)?>%</td>
+                                <td><?=$day['views'] == 0 ? 0 : round(($day['clicks']/$day['views'])*100, 2)?>%</td>
                             </tr>
                         <?php endforeach?>
 
