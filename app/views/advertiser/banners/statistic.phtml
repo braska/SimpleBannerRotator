@@ -54,7 +54,7 @@
             </li>
             <li>
                 <div><span style="font-size: 30px; color: darkgreen; line-height: 30px;">CTR</span></div>
-                <div class="datas-text"><?=round(($clicks / $views)*100, 2)?>%</div>
+                <div class="datas-text"><?=$views == 0 ? 0 : round(($clicks / $views)*100, 2)?>%</div>
             </li>
         </ul>
     </div>
@@ -72,6 +72,9 @@
             </div>
             <div class="widget-content medias">
                 <?php if(count($days)):?>
+                    <?php
+                    $days_of_week = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс');
+                    ?>
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
@@ -82,17 +85,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($days as $day):?>
-                            <tr>
-                                <td><?=date('d.m.Y', $day['date'])?></td>
+                        <?php foreach(array_reverse($days) as $day):?>
+                            <?php $day_of_week = date('N', $day['date']) - 1;?>
+                            <tr<?=($day_of_week == 6 || $day_of_week == 5) ? ' class="warning"' : ''?>>
+                                <td><?=date('d.m.Y', $day['date'])?>, <?=$days_of_week[$day_of_week]?></td>
                                 <td><?=$day['views']?></td>
                                 <td><?=$day['clicks']?></td>
-                                <td><?php
-                                    if((int) $day['views'] > 0)
-                                        echo round(($day['clicks']/$day['views'])*100, 2);
-                                    else
-                                        echo 0;
-                                ?>%</td>
+                                <td><?=$day['views'] == 0 ? 0 : round(($day['clicks']/$day['views'])*100, 2)?>%</td>
                             </tr>
                         <?php endforeach?>
 

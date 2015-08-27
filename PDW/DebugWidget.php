@@ -2,7 +2,8 @@
 
 namespace PDW;
 
-use Phalcon\Db\Profiler as Profiler,
+use Phalcon\DiInterface,
+	Phalcon\Db\Profiler as Profiler,
 	Phalcon\Escaper as Escaper,
 	Phalcon\Mvc\Url as URL,
 	Phalcon\Mvc\View as View;
@@ -49,7 +50,7 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 		$this->_serviceNames = $serviceNames;
 	}
 
-	public function setDI($di)
+	public function setDI(DiInterface $di)
 	{
 		$this->_di = $di;
 	}
@@ -66,7 +67,11 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 
 	public function beforeQuery($event, $connection)
 	{
-		$this->_profiler->startProfile($connection->getRealSQLStatement());
+		$this->_profiler->startProfile(
+			$connection->getRealSQLStatement(),
+			$connection->getSQLVariables(),
+			$connection->getSQLBindTypes()
+		);
 	}
 
 	public function afterQuery($event, $connection)
@@ -120,8 +125,10 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 	{
 		$this->endTime = microtime(true);
 		$content = $view->getContent();
+		$scripts = $this->getInsertScripts();
+		$scripts .= "</head>";
+		$content = str_replace("</head>", $scripts, $content);
 		$rendered = $this->renderToolbar();
-		$rendered .= $this->getInsertScripts();
 		$rendered .= "</body>";
 		$content = str_replace("</body>", $rendered, $content);
 
@@ -140,19 +147,21 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 		$url = $this->getDI()->get('url');
 		$scripts = "";
 
-		$css = array('pdw-assets/style.css', 'pdw-assets/lib/prism/prism.css');
+		$css = array('/pdw-assets/style.css', '/pdw-assets/lib/prism/prism.css');
 		foreach ($css as $src) {
 			$link = $url->get($src);
+			//$link = str_replace("//", "/", $link);
 			$scripts .= "<link rel='stylesheet' type='text/css' href='" . $escaper->escapeHtmlAttr($link) . "' />";
 		}
 
 		$js = array(
-				//'pdw-assets/jquery.min.js',
-				'pdw-assets/lib/prism/prism.js',
-				'pdw-assets/pdw.js'
+				'/pdw-assets/jquery.min.js',
+				'/pdw-assets/lib/prism/prism.js',
+				'/pdw-assets/pdw.js'
 		);
 		foreach ($js as $src) {
 			$link = $url->get($src);
+			//$link = str_replace("//", "/", $link);
 			$scripts .= "<script tyle='text/javascript' src='" . $escaper->escapeHtmlAttr($link) . "'></script>";
 		}
 

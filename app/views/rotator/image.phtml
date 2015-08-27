@@ -1,3 +1,3 @@
 <a href="<?=$this->url->get(array('for'=>'full', 'controller'=>'rotator', 'action'=>'click', 'id'=>$banner->id), array('view'=>$view))?>" rel="nofollow"<?=$banner->target_blank == 1 ? ' target="_blank"' : ''?>>
-    <img src="<?=$this->url->getStatic($this->config->banners->imagePath.$banner->content)?>" border="0"<?=empty($banner->width) ? '' : ' width="'.$banner->width.'"'?><?=empty($banner->height) ? '' : ' height="'.$banner->height.'"'?> />
+    <img src="<?=$this->url->getStatic($this->config->banners->imagePath.$banner->content)?>" border="0"<?=empty($banner->width) ? '' : ' width="'.$banner->width.'"'?><?=empty($banner->height) ? '' : ' height="'.$banner->height.'"'?> style="max-width: 100%; height: auto;" />
 </a>

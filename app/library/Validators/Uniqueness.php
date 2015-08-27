@@ -5,7 +5,7 @@ namespace App\Library\Validators;
 class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
 {
 
-    public function validate($validation, $field)
+    public function validate(\Phalcon\Validation $validation, $field)
     {
         $value = $validation->getValue($field);
         $model = $this->getOption("model");

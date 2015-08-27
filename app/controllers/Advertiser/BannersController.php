@@ -45,7 +45,7 @@ class BannersController extends ControllerBase {
                 $start_date = mktime($start_date['hour'], $start_date['minute'], 0, $start_date['month'], $start_date['day'], $start_date['year']);
             }
 
-            if(!$this->request->getQuery('start_date')) {
+            if(!$this->request->getQuery('end_date')) {
                 if (!empty($banner->end_date)) {
                     if ($banner->end_date > time()) {
                         $end_date = time();
@@ -85,23 +85,51 @@ class BannersController extends ControllerBase {
             ->where('advertiser_id = '.$this->auth->get_user()->id);
 
         if ($type == 'finished') {
-            $banners = $banners
-                ->leftJoin('App\Models\Views', 'b.id = v.banner_id AND IF(b.start_date IS NULL, 1, IF(v.date >= b.start_date, 1, 0)) = 1 AND IF(b.end_date IS NULL, 1, IF(v.date < b.end_date, 1, 0)) = 1', 'v')
-                ->groupBy('b.id')
-                ->having('(b.end_date IS NOT NULL AND '.time().' > b.end_date) OR (max_impressions IS NOT NULL AND COUNT(v.id) >= max_impressions)');
+            // см. $banners->filter(...);
         }
         elseif($type == "active")
             // это фильтр для активных баннеров, но вместе с ними показываются и те что ещё не начали показываться (start_date > time())
             $banners = $banners
-                ->leftJoin('App\Models\Views', 'b.id = v.banner_id AND IF(b.start_date IS NULL, 1, IF(v.date >= b.start_date, 1, 0)) = 1 AND IF(b.end_date IS NULL, 1, IF(v.date < b.end_date, 1, 0)) = 1', 'v')
-                ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND active = 1 AND archived = 0")
-                ->groupBy('b.id')
-                ->having('max_impressions IS NULL OR COUNT(v.id) < max_impressions');
+                ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND active = 1 AND archived = 0");
 
         $banners = $banners
             ->orderBy('b.id DESC')
             ->getQuery()
             ->execute();
+
+        $banners = $banners->filter(function($banner) use ($type) {
+            $ok = true;
+            if ($banner->max_impressions != null) {
+                if (($banner->start_date != null || $banner->end_date != null)) {
+                    $count_conditions = [];
+                    if ($banner->start_date != null) {
+                        $count_conditions[] = 'date >= ' . $banner->start_date;
+                    }
+                    if ($banner->end_date != null) {
+                        $count_conditions[] = 'date < ' . $banner->end_date;
+                    }
+                    $count_views = $banner->countViews([implode(' AND ', $count_conditions)]);
+                } else {
+                    $count_views = $banner->countViews();
+                }
+            }
+            if ($type == 'finished') {
+                $ok = false;
+                if (($banner->end_date != null && time() > $banner->end_date) ) {
+                    $ok = true;
+                }
+                if ($banner->max_impressions != null && $count_views >= $banner->max_impressions) {
+                    $ok = true;
+                }
+            } elseif ($type =='active') {
+                if ($banner->max_impressions != null && $count_views >= $banner->max_impressions) {
+                    $ok = false;
+                }
+            }
+            if ($ok) {
+                return $banner;
+            }
+        });
         return $banners;
     }
 }

@@ -114,10 +114,6 @@ try
     });
 
     $di->setShared('session', function() use ($di) {
-        /*$session = new App\Library\Session\Adapter\Database(array(
-            'db' => $di->get('db'),
-            'table' => 'session_data'
-        ));*/
         $session = new Phalcon\Session\Adapter\Files(array(
             'uniqueId' => 'banners'
         ));
@@ -152,11 +148,21 @@ try
     require '../app/config/vars.php';
     $di->setShared('vars', $vars);
 
-    //if(ENVIRONMENT == ENVIRONMENT_DEVELOPMENT) {
-    //    $namespaces = array_merge($loader->getNamespaces(), array('PDW'=>__DIR__.'/../PDW'));
-    //    $loader->registerNamespaces($namespaces);
-    //    $debugWidget = new \PDW\DebugWidget($di);
-    //}
+    if(ENVIRONMENT == ENVIRONMENT_PRODUCTION) {
+        $di->set('modelsMetadata', function() use ($config) {
+            $metaData = new \Phalcon\Mvc\Model\MetaData\Files(array(
+                "lifetime" => 86400,
+                "prefix"   => "banners",
+                'metaDataDir' => APPLICATION_PATH.$config->app->cacheDir.'metadata/'
+            ));
+
+            return $metaData;
+        });
+    } else {
+        $namespaces = array_merge($loader->getNamespaces(), array('PDW'=>realpath(__DIR__."/../PDW/")));
+        $loader->registerNamespaces($namespaces);
+        $debugWidget = new \PDW\DebugWidget($di);
+    }
 
 
     $di->set('viewCache', function() use ($config){

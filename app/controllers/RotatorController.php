@@ -16,11 +16,9 @@ class RotatorController extends ControllerBase {
 
         $banners = $this->modelsManager->createBuilder()
             ->from(array('b'=>'App\Models\Banners'))
-            ->leftJoin('App\Models\Views', 'b.id = v.banner_id AND IF(b.start_date IS NULL, 1, IF(v.date >= b.start_date, 1, 0)) = 1 AND IF(b.end_date IS NULL, 1, IF(v.date < b.end_date, 1, 0)) = 1', 'v')
             ->innerJoin('App\Models\BannersZones', 'b.id = bz.banner_id AND bz.zone_id = ' . $this->request->getQuery('zone_id', 'int'), 'bz')
             ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND (start_date IS NULL OR start_date <= " . time() . ") AND active = 1 AND archived = 0")
             ->groupBy('b.id')
-            ->having('max_impressions IS NULL OR COUNT(v.id) < max_impressions')
             ->getQuery()
             ->execute();
             
@@ -30,9 +28,19 @@ class RotatorController extends ControllerBase {
 
             $banners = $banners->filter(function($banner) use (&$existsNonzeroPriority, $url) {
                 if((!empty($banner->url_mask) && preg_match($banner->url_mask, $url) == 1) || empty($banner->url_mask)) {
-                    if($banner->priority != 0)
-                        $existsNonzeroPriority = true;
-                    return $banner;
+                    if(!empty($banner->max_impressions)) {
+                        $q = (empty($banner->start_date) ? '' : ('date >= ' . $banner->start_date)) . (empty($banner->end_date) ? '' : (' AND date < ' . $banner->end_date));
+                        $views = $banner->countViews(array($q));
+                        if ($views < $banner->max_impressions) {
+                            if ($banner->priority != 0)
+                                $existsNonzeroPriority = true;
+                            return $banner;
+                        }
+                    } else {
+                        if ($banner->priority != 0)
+                            $existsNonzeroPriority = true;
+                        return $banner;
+                    }
                 }
             });
 
