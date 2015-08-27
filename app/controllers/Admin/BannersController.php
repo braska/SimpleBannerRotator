@@ -160,14 +160,8 @@ class BannersController extends ControllerBase {
                     }
                 } else {
                     if (($this->request->getPost('type') == "image" || $this->request->getPost('type') == "flash") && $this->request->getPost('source') == "file") {
-<<<<<<< HEAD
-                        if ($this->request->hasFiles()) {
-                            $file = $this->request->getUploadedFiles();
-                            $file = $file[0];
-=======
                         if ($this->request->hasFiles(true)) {
                             $file = $this->request->getUploadedFiles()[0];
->>>>>>> 1857e5e1c9391e0422f6b09c519cfa274d80d655
                             $validation = new \Phalcon\Validation();
                             $validation->add('file', new UploadValid());
                             if ($this->request->getPost('type') == "image") {
