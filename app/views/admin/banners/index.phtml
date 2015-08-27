@@ -86,7 +86,12 @@
                                 <td><?=$banner->priority?></td>
                                 <td><?php $cliсks = $banner->countViews(array('clicked = 1')); echo $cliсks;?></td>
                                 <td><?php $views = $banner->countViews(); echo $views;?></td>
-                                <td><?=round(($cliсks / $views) * 100, 2)?>%</td>
+                                <td><?php
+                                    if($views > 0)
+                                        echo round(($cliсks / $views) * 100, 2);
+                                    else
+                                        echo 0;
+                                    ?>%</td>
                                 <td><?=!empty($banner->max_impressions) ? $banner->max_impressions : '&infin;'?></td>
                                 <td><?=!empty($banner->start_date) ? $banner->getStartDate() : '&infin;'?></td>
                                 <td><?=!empty($banner->end_date) ? $banner->getEndDate() : '&infin;'?></td>
@@ -94,7 +99,7 @@
                                 <td><?=!empty($banner->advertiser_id) ? '<a href="'.$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('advertiser'=>$banner->advertiser_id))).'">'.$banner->advertiser->getUsername().'</a>' : ''?></td>
                                 <td>
                                     <?php $zones = $banner->getZones();
-                                    $arr = [];
+                                    $arr = array();
                                     foreach($zones as $zone) {
                                         $arr[] = '<a href="'.$this->url->get(array('for'=>'controller', 'controller'=>'banners'), array_merge($getCleanQuery(), array('zone' => $zone->id))).'">'.$zone->name.'</a>';
                                     }

@@ -30,9 +30,12 @@ class BannersController extends ControllerBase {
         $this->assets->collection('bottom-js')
             ->addJs('js/moment/moment.min.js')
             ->addJs('js/moment/ru.js')
-            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js');
+            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js')
+            ->addJs('js/banners_edit_sizes.js');
+            
         $this->assets->collection('css')
             ->addCss('js/datetimepicker/css/bootstrap-datetimepicker.min.css');
+            
         $banner = new Banners();
         if ($this->request->isPost())
         {
@@ -112,7 +115,7 @@ class BannersController extends ControllerBase {
 
             }
         }
-        $this->view->checked_zones = $this->request->getPost('zones') ? $this->request->getPost('zones') : [];
+        $this->view->checked_zones = $this->request->getPost('zones') ? $this->request->getPost('zones') : array();
         $this->view->banner = $banner;
         $this->view->pick("banners/edit");
         $this->view->title = "Добавление баннера";
@@ -123,9 +126,12 @@ class BannersController extends ControllerBase {
         $this->assets->collection('bottom-js')
             ->addJs('js/moment/moment.min.js')
             ->addJs('js/moment/ru.js')
-            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js');
+            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js')
+            ->addJs('js/banners_edit_sizes.js');
+            
         $this->assets->collection('css')
             ->addCss('js/datetimepicker/css/bootstrap-datetimepicker.min.css');
+            
         $id = $this->dispatcher->getParam('id');
         $banner = Banners::findFirst($id);
         if($id && $banner) {
@@ -236,8 +242,10 @@ class BannersController extends ControllerBase {
                 ->addJs('js/moment/moment.min.js')
                 ->addJs('js/moment/ru.js')
                 ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js');
+                
             $this->assets->collection('css')
                 ->addCss('js/datetimepicker/css/bootstrap-datetimepicker.min.css');
+                
             if(!$this->request->getQuery('start_date')) {
                 if (!empty($banner->start_date)) {
                     $start_date = $banner->start_date;
@@ -265,7 +273,7 @@ class BannersController extends ControllerBase {
                 $end_date = mktime($end_date['hour'], $end_date['minute'], 0, $end_date['month'], $end_date['day'], $end_date['year']);
             }
             $days = (floor(($end_date + 10800)  / 86400)) - (floor(($start_date + 10800) / 86400)) + 1;
-            $days_arr = [];
+            $days_arr = array();
             if($days > 0) {
                 for($i = 0; $i < $days; $i++) {
                     $day = floor(($start_date + 10800) / 86400) * 86400 + $i*86400 - 10800;
@@ -284,7 +292,9 @@ class BannersController extends ControllerBase {
             $this->view->banner = $banner;
             $this->view->title = "Статистика для баннера \"{$banner->name}\"";
             \Phalcon\Tag::prependTitle("Статистика для баннера \"{$banner->name}\"");
-        } else $this->dispatcher->forward(array("namespace"=>'App\Controllers', "controller" => "error", "action" => "notFound"));
+        }
+        else
+            $this->dispatcher->forward(array("namespace"=>'App\Controllers', "controller" => "error", "action" => "notFound"));
     }
 
     public function toggleAction() {

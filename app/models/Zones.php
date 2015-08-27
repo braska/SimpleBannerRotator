@@ -4,9 +4,11 @@ namespace App\Models;
 
 class Zones extends ModelBase
 {
-    public $id, $name;
+    public $id, $name, $height, $width;
     public $labels = array(
-        'name' => 'Имя'
+        'name' => 'Имя',
+        'height' => 'Высота',
+        'width' => 'Ширина',
     );
 
     public function initialize()
@@ -21,5 +23,9 @@ class Zones extends ModelBase
             "id",
             array('alias' => 'banners')
         );
+    }
+    
+    function get_mobile_link(){
+        return 'http://' . $_SERVER['HTTP_HOST'] . '/rotator/get_mobile?zone_id=' . $this->id . '&' . sha1($_SERVER['HTTP_HOST']) . '=' . base64_encode(sha1(sha1($_SERVER['HTTP_HOST'])));
     }
 }

@@ -11,6 +11,8 @@ class ZonesController extends ControllerBase {
         Tag::prependTitle('Зоны');
         $this->view->title = "Зоны";
         $this->view->zones = Zones::find();
+        
+        $this->assets->collection('bottom-js')->addJs('js/zones.js');
     }
 
     public function addAction() {
@@ -63,7 +65,8 @@ class ZonesController extends ControllerBase {
         {
             if ($this->request->isPost())
             {
-                if($zone->save($this->request->getPost(), array('name')))
+                //var_dump($this->request->getPost());exit;
+                if($zone->save($this->request->getPost(), array('name', 'width', 'height')))
                 {
                     $this->flashSession->success("Зона отредактирована");
                     return $this->response->redirect(array('for'=>'controller', 'controller'=>'zones'));
