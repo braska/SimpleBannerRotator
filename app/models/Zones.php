@@ -4,9 +4,11 @@ namespace App\Models;
 
 class Zones extends ModelBase
 {
-    public $id, $name;
+    public $id, $name, $height, $width;
     public $labels = array(
-        'name' => 'Имя'
+        'name' => 'Имя',
+        'height' => 'Высота',
+        'width' => 'Ширина'
     );
 
     public function initialize()
