@@ -17,7 +17,23 @@
                                 <?=$this->tag->textField(array('name', 'value'=>$zone->name, 'class'=>'form-control'))?>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="text">Размеры</label>
+                            <div class="col-md-6">
+                                <?=$this->tag->textField(array(
+                                    'width',
+                                    'value'=>$zone->width,
+                                    'class'=>'form-control',
+                                    'placeholder'=>'Ширина'
+                                ))?>
+                                <?=$this->tag->textField(array(
+                                    'height',
+                                    'value'=>$zone->height,
+                                    'class'=>'form-control',
+                                    'placeholder'=>'Высота'
+                                ))?>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">
                                 <button type="submit" class="btn btn-primary">Сохранить</button>
