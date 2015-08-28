@@ -118,8 +118,14 @@
                                 $zones = \App\Models\Zones::find();
                                 foreach($zones as $zone):?>
                                     <div class="checkbox">
-                                        <label>
-                                            <?=$this->tag->checkField(array('zones[]', 'checked'=>in_array($zone->id, $checked_zones) ? 'checked' : null, 'value'=>$zone->id))?> <?=$zone->name?>
+                                        <label class="zone">
+                                            <?=$this->tag->checkField(array(
+                                                'zones[]',
+                                                'checked'=>in_array($zone->id, $checked_zones) ? 'checked' : null,
+                                                'value'=>$zone->id
+                                            ))?> <?=$zone->name?>
+                                            (<i id="width"><?=$zone->width == '' ? '???' : $zone->width?></i>x<i id="height"><?=$zone->height == '' ? '???' : $zone->height?></i>)
+                                            <b class="status"></b>
                                         </label>
                                     </div>
                                 <?php endforeach;?>
