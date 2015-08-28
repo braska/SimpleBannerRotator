@@ -22,4 +22,8 @@ class Zones extends ModelBase
             array('alias' => 'banners')
         );
     }
+    
+    function get_mobile_link(){
+        return 'http://' . $_SERVER['HTTP_HOST'] . '/rotator/get_mobile?zone_id=' . $this->id . '&' . sha1($_SERVER['HTTP_HOST']) . '=' . base64_encode(sha1(sha1($_SERVER['HTTP_HOST'])));
+    }
 }
