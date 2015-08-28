@@ -5,7 +5,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-12">
         <div class="widget">
             <div class="widget-head">
                 <div class="pull-left">Список</div>
@@ -22,6 +22,7 @@
                         <th>ID</th>
                         <th>Имя</th>
                         <th>Код инициализации зоны</th>
+                        <th>Размеры</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
@@ -33,6 +34,7 @@
                         <td>
                             <?=htmlspecialchars("<div id=\"banners_zone_{$zone->id}\"></div><script type=\"text/javascript\">new Banner(\"banners_zone_{$zone->id}\", {$zone->id});</script>");?>
                         </td>
+                        <td><?=$zone->width == '' ? '???' : $zone->width?>x<?=$zone->height == '' ? '???' : $zone->height?></td>
                         <td>
                             <a class="btn btn-xs btn-default" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'zones', 'action'=>'edit', 'id'=>$zone->id))?>"><i class="fa fa-pencil"></i></a>
                             <a class="btn btn-xs btn-danger" href="<?=$this->url->get(array('for'=>'full', 'controller'=>'zones', 'action'=>'delete', 'id'=>$zone->id))?>"><i class="fa fa-times"></i></a>
