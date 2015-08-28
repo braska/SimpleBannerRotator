@@ -63,7 +63,7 @@ class RotatorController extends ControllerBase {
             if((isset($banner_selected) && empty($banner_selected->id)) || !isset($banner_selected)) return;
 
             $view = new Views();
-            $view->save(array('date'=>time(), 'banner_id'=>$banner_selected->id));
+            $view->save(array('date'=>time(), 'banner_id'=>$banner_selected->id, 'zone_id'=>$this->request->getQuery('zone_id', 'int'));
             $this->view->view = $view->id;
 
             if($banner_selected->type == "image")
