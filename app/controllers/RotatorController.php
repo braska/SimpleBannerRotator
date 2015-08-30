@@ -16,19 +16,19 @@ class RotatorController extends ControllerBase {
         $url = $this->request->getQuery('url');
         
         if($this->request->has('type'))
-            $type = $this->requst->get('type');
+            $type = $this->request->get('type');
         else
             $type = 'standart';
     
-        $banners = $this->modelsManager->createBuilder()
+        $banners_sql = $this->modelsManager->createBuilder()
             ->from(array('b'=>'App\Models\Banners'))
             ->innerJoin('App\Models\BannersZones', 'b.id = bz.banner_id AND bz.zone_id = ' . $this->request->getQuery('zone_id', 'int'), 'bz')
             ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND (start_date IS NULL OR start_date <= " . time() . ") AND active = 1 AND archived = 0");
             
         if($type === 'mobile')
-            $banners->andWhere('type <> "flash"');
+            $banners_sql->andWhere('type <> "flash"');
             
-        $banners->groupBy('b.id')
+        $banners = $banners_sql->groupBy('b.id')
             ->getQuery()
             ->execute();
             
@@ -94,8 +94,6 @@ class RotatorController extends ControllerBase {
         $this->view->pick('rotator/js');
     }
     
-    
-
     public function clickAction() {
         $id = $this->dispatcher->getParam('id');
         $banner = Banners::findFirst(array('id = :id:', 'bind'=>array('id'=>$id)));
