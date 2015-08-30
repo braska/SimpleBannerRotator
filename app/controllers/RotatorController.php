@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Banners;
 use App\Models\Views;
+use App\Models\Zones;
 use Phalcon\Mvc\View;
 
 class RotatorController extends ControllerBase {
@@ -19,6 +20,13 @@ class RotatorController extends ControllerBase {
             $type = $this->request->get('type');
         else
             $type = 'standart';
+            
+        if($type === 'mobile'){
+            if(!$this->request->has(sha1($_SERVER['HTTP_HOST'])) OR $this->request->get(sha1($_SERVER['HTTP_HOST'])) !== Zones::mobile_secret_key()) {
+                $this->response->setStatusCode(400, 'Bad request');
+                return $this->response->send();
+            }
+        }
     
         $banners_sql = $this->modelsManager->createBuilder()
             ->from(array('b'=>'App\Models\Banners'))
