@@ -17,12 +17,12 @@ class RotatorController extends ControllerBase {
         $banners = $this->modelsManager->createBuilder()
             ->from(array('b'=>'App\Models\Banners'))
             ->innerJoin('App\Models\BannersZones', 'b.id = bz.banner_id AND bz.zone_id = ' . $this->request->getQuery('zone_id', 'int'), 'bz')
-            ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND (start_date IS NULL OR start_date <= " . time() . ") AND active = 1 AND archived = 0 AND type <> \"flash\"")
+            ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND (start_date IS NULL OR start_date <= " . time() . ") AND active = 1 AND archived = 0")
             ->groupBy('b.id')
             ->getQuery()
             ->execute();
+            
         if(count($banners)) {
-
             $existsNonzeroPriority = false;
 
             $banners = $banners->filter(function($banner) use (&$existsNonzeroPriority, $url) {
@@ -68,6 +68,8 @@ class RotatorController extends ControllerBase {
 
             if($banner_selected->type == "image")
                 $this->view->pick('rotator/image');
+            elseif($banner_selected->type == "flash")
+                $this->view->pick('rotator/flash');
             elseif($banner_selected->type == "html") {
                 $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
                 echo $banner_selected->content;
