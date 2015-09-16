@@ -54,7 +54,7 @@ class Banners extends ModelBase
         $this->max_impressions = abs($this->max_impressions);
 
         if(empty($this->max_impressions) || !$this->max_impressions) {
-            $this->max_impressions = new RawValue('default');
+            $this->max_impressions = null;
         }
         if (!isset($this->target_blank) || $this->target_blank === "") {
             $this->target_blank = new RawValue('default');
