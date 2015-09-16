@@ -23,11 +23,7 @@ class Zones extends ModelBase
         );
     }
     
-    public static function mobile_secret_key(){
-        return base64_encode(sha1(\Phalcon\DI::getDefault()->get('config')->crypt->key));
-    }
-    
     function get_mobile_link(){
-        return 'http://' . $_SERVER['HTTP_HOST'] . '/rotator/get?type=mobile&zone_id=' . $this->id . '&' . sha1($_SERVER['HTTP_HOST']) . '=' . $this->mobile_secret_key();
+        return 'http://' . $_SERVER['HTTP_HOST'] . '/rotator/get?type=mobile&zone_id=' . $this->id;
     }
 }
