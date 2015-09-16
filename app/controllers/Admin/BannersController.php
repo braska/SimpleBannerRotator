@@ -210,7 +210,7 @@ class BannersController extends ControllerBase {
 
                 }
             }
-            $this->view->checked_zones = $this->request->getPost('zones') ? $this->request->getPost('zones') : array_column($banner->getZones(array('columns'=>array('id')))->toArray(), 'id');
+            $this->view->checked_zones = $this->request->getPost('zones') ? $this->request->getPost('zones') : \array_column($banner->getZones(array('columns'=>array('id')))->toArray(), 'id');
             $this->view->banner = $banner;
             $this->view->pick("banners/edit");
             $this->view->title = "Редактирование баннера";
