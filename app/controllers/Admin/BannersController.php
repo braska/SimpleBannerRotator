@@ -12,6 +12,9 @@ use App\Models\Users;
 use App\Models\Views;
 use App\Models\Zones;
 
+if(phpversion() < 5.5)
+    require 'array_column.php';
+
 class BannersController extends ControllerBase {
     public function indexAction() {
         if($this->request->getQuery('zone')) {
