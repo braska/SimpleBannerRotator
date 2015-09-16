@@ -34,8 +34,6 @@ class BannersController extends ControllerBase {
         $this->assets->collection('css')
             ->addCss('js/datetimepicker/css/bootstrap-datetimepicker.min.css');
         $banner = new Banners();
-        $banner->width = '';
-        $banner->height = '';
 
         $this->view->checked_zones = $this->request->getPost('zones') ? $this->request->getPost('zones') : [];
         $this->view->banner = $banner;

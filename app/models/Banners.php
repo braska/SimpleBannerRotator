@@ -72,10 +72,10 @@ class Banners extends ModelBase
             $this->advertiser_id = new RawValue('default');
         }
         if (!isset($this->width) || $this->width === "") {
-            $this->width = new RawValue('default');
+            $this->width = '';
         }
         if (!isset($this->height) || $this->height === "") {
-            $this->height = new RawValue('default');
+            $this->height = '';
         }
         if (!isset($this->start_date) || $this->start_date === "") {
             $this->start_date = new RawValue('default');
