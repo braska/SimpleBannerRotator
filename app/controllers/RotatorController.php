@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Banners;
 use App\Models\Views;
+use App\Models\Zones;
 use Phalcon\Mvc\View;
 
 class RotatorController extends ControllerBase {
@@ -14,15 +15,25 @@ class RotatorController extends ControllerBase {
 
     public function getAction() {
         $url = $this->request->getQuery('url');
-        $banners = $this->modelsManager->createBuilder()
+        
+        if($this->request->has('type'))
+            $type = $this->request->get('type');
+        else
+            $type = 'standart';
+    
+        $banners_sql = $this->modelsManager->createBuilder()
             ->from(array('b'=>'App\Models\Banners'))
             ->innerJoin('App\Models\BannersZones', 'b.id = bz.banner_id AND bz.zone_id = ' . $this->request->getQuery('zone_id', 'int'), 'bz')
-            ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND (start_date IS NULL OR start_date <= " . time() . ") AND active = 1 AND archived = 0")
-            ->groupBy('b.id')
+            ->andWhere('(end_date IS NULL OR end_date > ' . time() . ") AND (start_date IS NULL OR start_date <= " . time() . ") AND active = 1 AND archived = 0");
+            
+        if($type === 'mobile')
+            $banners_sql->andWhere('type <> "flash"');
+            
+        $banners = $banners_sql->groupBy('b.id')
             ->getQuery()
             ->execute();
+            
         if(count($banners)) {
-
             $existsNonzeroPriority = false;
 
             $banners = $banners->filter(function($banner) use (&$existsNonzeroPriority, $url) {
@@ -83,7 +94,7 @@ class RotatorController extends ControllerBase {
         $this->response->setContentType('text/javascript');
         $this->view->pick('rotator/js');
     }
-
+    
     public function clickAction() {
         $id = $this->dispatcher->getParam('id');
         $banner = Banners::findFirst(array('id = :id:', 'bind'=>array('id'=>$id)));

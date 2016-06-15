@@ -11,6 +11,8 @@ class ZonesController extends ControllerBase {
         Tag::prependTitle('Зоны');
         $this->view->title = "Зоны";
         $this->view->zones = Zones::find();
+        
+        $this->assets->collection('bottom-js')->addJs('js/zones.js');
     }
 
     public function addAction() {
