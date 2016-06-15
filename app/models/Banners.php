@@ -54,7 +54,7 @@ class Banners extends ModelBase
         $this->max_impressions = abs($this->max_impressions);
 
         if(empty($this->max_impressions) || !$this->max_impressions) {
-            $this->max_impressions = new RawValue('default');
+            $this->max_impressions = null;
         }
         if (!isset($this->target_blank) || $this->target_blank === "") {
             $this->target_blank = new RawValue('default');
@@ -72,10 +72,10 @@ class Banners extends ModelBase
             $this->advertiser_id = new RawValue('default');
         }
         if (!isset($this->width) || $this->width === "") {
-            $this->width = new RawValue('default');
+            $this->width = null;
         }
         if (!isset($this->height) || $this->height === "") {
-            $this->height = new RawValue('default');
+            $this->height = null;
         }
         if (!isset($this->start_date) || $this->start_date === "") {
             $this->start_date = new RawValue('default');
