@@ -2,4 +2,3 @@
 vendor
 public/content
 docker-compose.*
-docker
