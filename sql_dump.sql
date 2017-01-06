@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `views` (
 `id` int(11) unsigned NOT NULL,
   `date` int(11) NOT NULL,
   `banner_id` int(11) unsigned NOT NULL,
+  `zone_id` INT(11) UNSIGNED NOT NULL,
   `clicked` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=319816 DEFAULT CHARSET=utf8;
 
