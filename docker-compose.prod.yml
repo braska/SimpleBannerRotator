@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes_from:
+      - data
+    depends_on:
+      - php
+
+  php:
+    image: atnartur/php:5.6-fpm-phalcon2.0.13
+    working_dir: /srv/www/app
+    command: >
+      sh -c "./wait-for-it.sh db:3306 -t 30 &&
+      vendor/bin/phinx migrate -e docker && 
+      chmod 777 public/content &&  
+      php-fpm -RF"
+    depends_on:
+      - db
+    volumes_from:
+      - data
+    volumes:
+      - files:/srv/www/app/public/content
+      - system-tmp:/tmp
+  db:
+    image: percona:latest
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: banners
+      MYSQL_USER: banners
+      MYSQL_PASSWORD: bannerspass
+    volumes:
+      - ./docker/mysql.cnf:/etc/mysql/conf.d/extra.cnf
+      - db:/var/lib/mysql
+
+  data:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - /srv/www/app
+      - /etc/nginx
+
+volumes:
+  system-tmp:
+    driver: local
+  db:
+    driver: local
+  files:
+    driver: local

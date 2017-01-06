@@ -18,6 +18,11 @@ SimpleBannerRotator &mdash; это предельно минимизирован
 E-mail: test@test.ru
 Пароль: 4444
 
+## Запуск в Docker
+- `docker-compose build` - сборка образа
+- `docker-copmose up` - запуск версии для разработки
+- `docker-compose -f docker-compose.prod.yml up` - запуск production версии
+
 ## Использование
 1. В шапку сайта, на котором требуется транслировать баннеры, нужно вставить основной скрипт баннеро-ротатора:
 
