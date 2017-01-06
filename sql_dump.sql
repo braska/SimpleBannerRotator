@@ -55,8 +55,10 @@ CREATE TABLE IF NOT EXISTS `user_tokens` (
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `zones` (
-`id` int(10) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `height` INT(11) NOT NULL,
+  `width` INT(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `views` (

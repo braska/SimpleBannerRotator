@@ -30,7 +30,8 @@ class BannersController extends ControllerBase {
         $this->assets->collection('bottom-js')
             ->addJs('js/moment/moment.min.js')
             ->addJs('js/moment/ru.js')
-            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js');
+            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js')
+            ->addJs('js/banners_edit_sizes.js');
         $this->assets->collection('css')
             ->addCss('js/datetimepicker/css/bootstrap-datetimepicker.min.css');
         $banner = new Banners();
@@ -126,7 +127,8 @@ class BannersController extends ControllerBase {
         $this->assets->collection('bottom-js')
             ->addJs('js/moment/moment.min.js')
             ->addJs('js/moment/ru.js')
-            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js');
+            ->addJs('js/datetimepicker/js/bootstrap-datetimepicker.js')
+            ->addJs('js/banners_edit_sizes.js');
         $this->assets->collection('css')
             ->addCss('js/datetimepicker/css/bootstrap-datetimepicker.min.css');
         $id = $this->dispatcher->getParam('id');
